@@ -16,6 +16,8 @@ def evaluate(pred, actual, k):
     print("Recall@{} is {:.4f}".format(k, recall))
     print("ARHR@{} is {:.4f}".format(k, arhr))
 
+    return recall, arhr
+
 
 def rmse(true, pred):
     x = np.array(true) - np.array(pred)

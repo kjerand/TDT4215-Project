@@ -45,7 +45,7 @@ def content_processing(df, features):
 
     return sim_matrix, df
 
-def content_based_filtering(df, k=20, features=700):
+def content_based_filtering(df, k=20, features=700, knn = True):
     """
         Generate top-k list according to cosine similarity
     """
@@ -80,8 +80,11 @@ def content_based_filtering(df, k=20, features=700):
     nbrs = NearestNeighbors(n_neighbors=k, algorithm='ball_tree').fit(sim_matrix[indexes])
     distances, indices = nbrs.kneighbors(sim_matrix[indexes])
 
-    print('\nEvaluation for top-k list:')
-    evaluate(pred, actual, k)
-
-    print('\nEvaluation for KNN:')
-    evaluate(indices.tolist(), actual, k)
+    if knn:
+        print('\nEvaluation for KNN:')
+        recall, arhr = evaluate(indices.tolist(), actual, k)
+        return recall, arhr
+    else:
+        print('\nEvaluation for top-k list:')
+        recall, arhr = evaluate(pred, actual, k)
+        return recall, arhr
