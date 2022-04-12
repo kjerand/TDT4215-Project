@@ -2,6 +2,7 @@ import os
 import json
 import pandas as pd
 import numpy as np
+from cbf import content_based_filtering
 
 def load_data(path):
     """
@@ -41,3 +42,11 @@ def load_dataset(df):
     for row in df_ext.itertuples():
         ratings[row[1]-1, row[2]-1] = 1.0
     return ratings
+
+
+def cbf_plot_no_of_feature(df):
+    no_of_features = [50, 75, 100, 200, 300, 500]
+
+    for f in no_of_features:
+        print("\nFeatures: ", f,"\n")
+        content_based_filtering(df, 20, f)

@@ -11,7 +11,7 @@ from sklearn.neighbors import NearestNeighbors
 
 from evaluate import evaluate
 
-def content_processing(df):
+def content_processing(df, features):
     """
         Remove events which are front page events, and calculate cosine similarities between
         items. Here cosine similarity are only based on item category information, others such
@@ -37,7 +37,7 @@ def content_processing(df):
     df_item = df[['tid', 'title']].drop_duplicates(inplace=False)
     df_item.sort_values(by=['tid', 'title'], ascending=True, inplace=True)
 
-    tf = TfidfVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0,max_features=700)
+    tf = TfidfVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0,max_features=features)
     tfidf_matrix = tf.fit_transform(df_item['title'])
     print('Dimension of feature vector: {}'.format(tfidf_matrix.shape))
     
@@ -45,16 +45,16 @@ def content_processing(df):
 
     return sim_matrix, df
 
-def content_based_filtering(df, k=20):
+def content_based_filtering(df, k=20, features=700):
     """
         Generate top-k list according to cosine similarity
     """
-   
-    sim_matrix, df = content_processing(df)
+
+    sim_matrix, df = content_processing(df, features)
 
     df.sort_values(by=['userId', 'time'], ascending=True, inplace=True)
     df = df[['userId', 'tid', 'title']]
- 
+
     pred, actual = [], []
     indexes = []
     puid, ptid1, ptid2 = None, None, None
@@ -62,24 +62,24 @@ def content_based_filtering(df, k=20):
         uid, tid = row['userId'], row['tid']
 
         if uid != puid and puid != None:
-          sim_scores = list(enumerate(sim_matrix[ptid1]))
-          sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-          sim_scores = sim_scores[1:k+1]
-          sim_scores = [i for i,j in sim_scores]
-          pred.append(sim_scores)
-          actual.append(ptid2)
-          puid, ptid1, ptid2 = uid, tid, tid
+            sim_scores = list(enumerate(sim_matrix[ptid1]))
+            sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+            sim_scores = sim_scores[1:k+1]
+            sim_scores = [i for i,j in sim_scores]
+            pred.append(sim_scores)
+            actual.append(ptid2)
+            puid, ptid1, ptid2 = uid, tid, tid
 
-          indexes.append(ptid1)
+            indexes.append(ptid1)
         else:
-          ptid1 = ptid2
-          ptid2 = tid
-          puid = uid
+            ptid1 = ptid2
+            ptid2 = tid
+            puid = uid
     
     
     nbrs = NearestNeighbors(n_neighbors=k, algorithm='ball_tree').fit(sim_matrix[indexes])
     distances, indices = nbrs.kneighbors(sim_matrix[indexes])
- 
+
     print('\nEvaluation for top-k list:')
     evaluate(pred, actual, k)
 
