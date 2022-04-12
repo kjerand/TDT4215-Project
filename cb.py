@@ -3,7 +3,7 @@ import numpy as np
 from scipy.linalg import sqrtm
 from utils import load_dataset
 from evaluate import rmse
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 
 def svd(train, k):
@@ -53,6 +53,8 @@ def collaborative_filtering_svd(df):
 
     users_amount, items_amount = ratings.shape
 
+    print(users_amount, items_amount)
+
     users_index = {users[i]: i for i in range(users_amount)}
     items_index = {items[i]: i for i in range(items_amount)}
 
@@ -78,4 +80,5 @@ def collaborative_filtering_svd(df):
 
 
         print("RMSE: " , rmse(actual, pred))
-        print("MSE: " , mean_squared_error(pred, actual, squared = False ))
+        print("MSE: " , mean_squared_error(actual, pred, squared = False ))
+        print("MAE: ", mean_absolute_error(actual, pred))
