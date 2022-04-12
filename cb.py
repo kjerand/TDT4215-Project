@@ -46,14 +46,15 @@ def train_test_split(ratings, fraction=0.2):
 def collaborative_filtering_svd(df):
     ratings = load_dataset(df)
     no_of_features = [2]
-    users_index, items_index = ratings.shape
 
     train, test = train_test_split(ratings, fraction=0.2)
 
     users, items = df['userId'].unique(), df['documentId'].unique()
 
-    users_index = {users[i]: i for i in range(len(users))}
-    items_index = {items[i]: i for i in range(len(items))}
+    users_amount, items_amount = ratings.shape
+
+    users_index = {users[i]: i for i in range(users_amount)}
+    items_index = {items[i]: i for i in range(items_amount)}
 
     for f in no_of_features: 
         svdout = svd(train, f)
