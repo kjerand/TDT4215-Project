@@ -10,9 +10,8 @@ if __name__ == "__main__":
     
 
     print("\nRecommendation based on content based filtering with top-k and KNN...")
-    
     cbf_plot_no_of_feature(df, knn=False)
     cbf_plot_no_of_feature(df, knn=True)
 
     content_based_filtering(df, knn=False, features=700, print_result=True)
-    content_based_filtering(df, knn=True, features=100, print_result=True)
+    content_based_filtering(df, knn=True, features=75, print_result=True)
