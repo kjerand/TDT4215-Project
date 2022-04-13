@@ -43,9 +43,14 @@ def train_test_split(ratings, fraction=0.2):
 
     return train, test
 
-def collaborative_filtering_svd(df):
+def collaborative_filtering_svd(df, features):
+
+    rmse_values = []
+    mse_values = []
+    mae_values = []
+
     ratings = load_dataset(df)
-    no_of_features = [2]
+    no_of_features = features
 
     train, test = train_test_split(ratings, fraction=0.2)
 
@@ -78,7 +83,11 @@ def collaborative_filtering_svd(df):
             pred.append(pred_rating)
             actual.append(actual_rating)
 
+        rmse_values.append(rmse(actual, pred))
+        mse_values.append(mean_squared_error(actual, pred, squared = False ))
+        mae_values.append(mean_absolute_error(actual, pred))
 
         print("RMSE: " , rmse(actual, pred))
         print("MSE: " , mean_squared_error(actual, pred, squared = False ))
         print("MAE: ", mean_absolute_error(actual, pred))
+    return rmse_values, mse_values, mae_values

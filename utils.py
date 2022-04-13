@@ -74,3 +74,21 @@ def plot_learning_curve(iter_array, recall, arhr):
     plt.ylabel('score', fontsize=20);
     plt.legend(loc='best', fontsize=18);
     plt.show()
+
+
+
+def plot_svd(iter_array, rmse, mse, mae):
+    """ Plot learning curves """
+    plt.plot(iter_array, rmse, \
+             label='RSME', linewidth=5)
+    plt.plot(iter_array, mse, \
+             label='MSE', linewidth=5)
+    plt.plot(iter_array, mae, \
+             label='MAE', linewidth=5)
+
+    plt.xticks(fontsize=16);
+    plt.yticks(fontsize=16);
+    plt.xlabel('features', fontsize=20);
+    plt.ylabel('score', fontsize=20);
+    plt.legend(loc='best', fontsize=18);
+    plt.show()
