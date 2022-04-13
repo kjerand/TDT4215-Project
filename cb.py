@@ -87,6 +87,7 @@ def collaborative_filtering_svd(df, features):
         mse_values.append(mean_squared_error(actual, pred, squared = False ))
         mae_values.append(mean_absolute_error(actual, pred))
 
+        print("Number of features: ", f)
         print("RMSE: " , rmse(actual, pred))
         print("MSE: " , mean_squared_error(actual, pred, squared = False ))
         print("MAE: ", mean_absolute_error(actual, pred))

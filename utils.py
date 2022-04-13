@@ -80,7 +80,7 @@ def plot_learning_curve(iter_array, recall, arhr):
 def plot_svd(iter_array, rmse, mse, mae):
     """ Plot learning curves """
     plt.plot(iter_array, rmse, \
-             label='RSME', linewidth=5)
+             label='RMSE', linewidth=5)
     plt.plot(iter_array, mse, \
              label='MSE', linewidth=5)
     plt.plot(iter_array, mae, \
