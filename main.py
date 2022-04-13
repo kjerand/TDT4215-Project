@@ -6,9 +6,7 @@ if __name__ == "__main__":
     df = load_data("active1000")
    
     print("\nRecommendation based on collaborative filtering with SVD...")
-    features = [1, 3, 5, 10, 25, 40, 50, 60]
-    rmse, mse, mae = collaborative_filtering_svd(df, features)
-    plot_svd(features, rmse, mse, mae)
+    collaborative_filtering_svd(df)
     
 
     print("\nRecommendation based on content based filtering with top-k and KNN...")

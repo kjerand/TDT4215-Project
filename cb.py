@@ -4,6 +4,7 @@ from scipy.linalg import sqrtm
 from utils import load_dataset
 from evaluate import rmse
 from sklearn.metrics import mean_squared_error, mean_absolute_error
+from utils import plot_svd
 
 
 def svd(train, k):
@@ -43,14 +44,14 @@ def train_test_split(ratings, fraction=0.2):
 
     return train, test
 
-def collaborative_filtering_svd(df, features):
+def collaborative_filtering_svd(df):
 
+    features = [1, 3, 5, 10, 25, 40, 50, 60]
     rmse_values = []
     mse_values = []
     mae_values = []
 
     ratings = load_dataset(df)
-    no_of_features = features
 
     train, test = train_test_split(ratings, fraction=0.2)
 
@@ -63,7 +64,7 @@ def collaborative_filtering_svd(df, features):
     users_index = {users[i]: i for i in range(users_amount)}
     items_index = {items[i]: i for i in range(items_amount)}
 
-    for f in no_of_features: 
+    for f in features: 
         svdout = svd(train, f)
 
         pred = [] #to store the predicted ratings    
@@ -91,4 +92,4 @@ def collaborative_filtering_svd(df, features):
         print("RMSE: " , rmse(actual, pred))
         print("MSE: " , mean_squared_error(actual, pred, squared = False ))
         print("MAE: ", mean_absolute_error(actual, pred))
-    return rmse_values, mse_values, mae_values
+    plot_svd(features, rmse_values, mse_values, mae_values)
