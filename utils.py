@@ -46,27 +46,32 @@ def load_dataset(df):
 
 
 def cbf_plot_no_of_feature(df, knn):
-    no_of_features = [30, 50, 60, 75, 100, 200, 300, 500]
+    no_of_features = [30, 50, 75, 100, 150, 300, 500, 700, 800, 1000]
     recall_vals = []
     arhr_vals = []
 
     for f in no_of_features:
-        print("\nFeatures: ", f,"\n")
+        print("\nFeatures: ", f)
 
         recall, arhr = content_based_filtering(df, 20, f, knn)
         recall_vals.append(recall)
         arhr_vals.append(arhr)
 
-    plot_learning_curve(no_of_features, recall_vals, arhr_vals)
+    plot_learning_curve(no_of_features, recall_vals, arhr_vals, knn)
 
 
 
-def plot_learning_curve(iter_array, recall, arhr):
+def plot_learning_curve(iter_array, recall, arhr, knn):
     """ Plot learning curves """
     plt.plot(iter_array, recall, \
              label='Recall', linewidth=5)
     plt.plot(iter_array, arhr, \
              label='ARHR', linewidth=5)
+
+    if knn:
+        plt.title("KNN")
+    else: 
+        plt.title("Top k")
 
     plt.xticks(fontsize=16);
     plt.yticks(fontsize=16);
@@ -88,7 +93,7 @@ def plot_svd(iter_array, rmse, mse, mae):
 
     plt.xticks(fontsize=16);
     plt.yticks(fontsize=16);
-    plt.xlabel('features', fontsize=20);
-    plt.ylabel('score', fontsize=20);
+    plt.xlabel('Features', fontsize=20);
+    plt.ylabel('Score', fontsize=20);
     plt.legend(loc='best', fontsize=18);
     plt.show()

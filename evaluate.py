@@ -1,6 +1,6 @@
 import numpy as np
 
-def evaluate(pred, actual, k):
+def evaluate(pred, actual, k, print_result = False):
     """
     Evaluate recommendations according to recall@k and ARHR@k
     """
@@ -13,8 +13,10 @@ def evaluate(pred, actual, k):
             arhr += 1./float(p.index(t) + 1.)
     recall = tp / float(total_num)
     arhr = arhr / len(actual)
-    print("Recall@{} is {:.4f}".format(k, recall))
-    print("ARHR@{} is {:.4f}".format(k, arhr))
+
+    if (print_result):
+        print("Recall@{} is {:.4f}".format(k, recall))
+        print("ARHR@{} is {:.4f}".format(k, arhr))
 
     return recall, arhr
 
