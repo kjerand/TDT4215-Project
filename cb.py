@@ -46,7 +46,7 @@ def train_test_split(ratings, fraction=0.2):
 
 def collaborative_filtering_svd(df):
 
-    features = [1, 3, 5, 10, 25, 40, 50, 60]
+    features = [5, 10, 25, 40, 50, 60]
     rmse_values = []
     mse_values = []
     mae_values = []
